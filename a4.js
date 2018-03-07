@@ -5,7 +5,7 @@ if ( ! exports )
    var exports = [ ];
 
 
-
+/*
 // Your solution for problem 1 must appear between this and matching
 // end comment below
 
@@ -41,8 +41,14 @@ var deepMap = function (f,ns) {
 
 
 var countOccurrences = function (ns) {
+
+	
+
+
+
+
   return 0;
-};
+};*/
 
 
 ////////// End of code for problem 3 ////////////////////
@@ -72,16 +78,25 @@ var rightEdge = 1000000;
 
 // curry5 curries a function of five parameters
 var curry5 = function (f) {
-    return 0;
-};
+    return function (t){
+		return function(l){
+			return function(b){
+				return function (r){
+					return function (point)
+								{return f(t,l,b,r,point);};
+						};			
+					};
+				};						
+			};
+		};
 
 // Use curry5 to define each of the five functions specified in the
 // assignment
-var isInFirstQuadrant = function(x) { return x; };
-var isInSecondQuadrant = function(x) { return x; };
-var isInThirdQuadrant = function(x) { return x; };
-var isInFourthQuadrant = function(x) { return x; };
-var isInUnitSquare = function(x) { return x; };
+var isInFirstQuadrant = function(x) {return curry5(isInRect)(topEdge)(0)(0)(rightEdge)(x);};
+var isInSecondQuadrant = function(x) { return curry5(isInRect)(topEdge)(leftEdge)(0)(0)(x); };
+var isInThirdQuadrant = function(x) { return curry5(isInRect)(0)(leftEdge)(bottomEdge)(0)(x);};
+var isInFourthQuadrant = function(x) { return curry5(isInRect)(0)(0)(bottomEdge)(rightEdge)(x); };
+var isInUnitSquare = function(x) { return curry5(isInRect)(1)(-1)(-1)(1)(x); };
 
 
 
@@ -93,7 +108,11 @@ var isInUnitSquare = function(x) { return x; };
 
 var makeCompositeMFRFunc = function(mf, ff, rf, acc)  {
 
-    return 0;
+    return function (ns)
+			{
+				
+				return fp.reduce(rf,fp.filter(ff,fp.map(mf,ns)),acc);
+				}
 };
 
 
@@ -104,7 +123,21 @@ var makeCompositeMFRFunc = function(mf, ff, rf, acc)  {
 
 
 var howManyWithLargerGTSmaller = function (list) {
-    return 0;
+				
+				
+
+				var mapper = function(x)
+					{
+					
+						return (fp.isGT(fp.reduce(fp.max,x,fp.hd(x)),
+										fp.reduce(fp.min,x,fp.hd(x)))
+										? 1 : 0);
+					}
+				var reducer = function(x,y)
+					{
+						return fp.add(x,y);
+					}
+   				return fp.reduce(reducer,fp.map(mapper,list),0);
 };
 
 
@@ -115,7 +148,7 @@ var howManyWithLargerGTSmaller = function (list) {
 ////////// Everything below this line will be stripped away when your
 ////////// submission is evaluated
 
-console.log("Testing Problem 1");
+/*console.log("Testing Problem 1");
 console.log(minMax( [[1,2,3],[5,4],[6],[7,10,9,9,10]] ));
 
 console.log("Testing Problem 2");
@@ -147,27 +180,25 @@ console.log(isInFourthQuadrant([-1,-1]));
 console.log(isInFourthQuadrant([1,-1]));
 console.log(isInUnitSquare([0,0]));
 
-
 console.log("Testing Problem 5");
 // Uncomment the lines below once you are ready to test makeCompositeMFRFunc
-// console.log(
-//     makeCompositeMFRFunc(
-// 	function(x) {return x + 1;},
-// 	function(x) {return x > 0;},
-// 	fp.add,
-// 	0)
-//     ([0,0,-1,-1,4,3])
-// 	   );
-//
-//
-// console.log(
-//     makeCompositeMFRFunc(
-// 	function(x) {return x + 3;},
-// 	function(x) {return fp.isZero(x % 2);},
-// 	function(a,n) { return fp.cons(n, a); },
-// 	[])
-//     ([11,15,12,4,3])
-// 	   );
+ console.log(
+     makeCompositeMFRFunc(
+ 	function(x) {return x + 1;},
+	function(x) {return x > 0;},
+ 	fp.add,
+ 	0)
+     ([0,0,-1,-1,4,3])
+	   );
+
+ console.log(
+     makeCompositeMFRFunc(
+ 	function(x) {return x + 3;},
+ 	function(x) {return fp.isZero(x % 2);},
+ 	function(a,n) { return fp.cons(n, a); },
+ 	[])
+     ([11,15,12,4,3])
+ 	   );*/
 
 
 console.log("Testing Problem 6");
