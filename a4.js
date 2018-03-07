@@ -12,7 +12,7 @@ if ( ! exports )
 var minMax = function (lol) {
   return fp.map(function(r) {return fp.makeList(
         fp.reduce(function(x,y) {return (fp.isLT(x, y) ? x : y); }, r, Number.MAX_SAFE_INTEGER),
-        fp.reduce(function(x,y) {return (fp.isGT(x, y) ? x : y);}, r, Number.MIN_SAFE_INTEGER));}, lol);
+        fp.reduce(function(x,y) {return (fp.isGT(x, y) ? x : y);}, r, 				  Number.MIN_SAFE_INTEGER));}, lol);
 };
 
 ////////// End of code for problem 1 ////////////////////
@@ -41,7 +41,23 @@ var deepMap = function (f,ns) {
 
 
 var countOccurrences = function (ns) {
-  return 0;
+
+	//returns a list of all occurrences
+	var mapper = function(n, r) {
+		return fp.reduce(function(a, y) { return fp.add(a, (fp.isEq(y, r) ? 1 : 0)); }, n, 0); 
+	};
+
+	var inter = function(l1, l2) {
+		if(fp.isNull(fp.tl(l2))) {
+			return [fp.cons(fp.hd(l1), l2)];
+		}
+		else {
+			return fp.cons(fp.cons(fp.hd(l1), [fp.hd(l2)]), inter(fp.tl(l1), fp.tl(l2)));
+		}
+	};
+
+	return inter(ns, fp.map(fp.curry(mapper)(ns), ns));
+
 };
 
 
@@ -72,7 +88,15 @@ var rightEdge = 1000000;
 
 // curry5 curries a function of five parameters
 var curry5 = function (f) {
-    return 0;
+    return function(u) {
+		return function(v) {
+			return function(w) {
+				return function(x) {
+					return f(u, v, w, x);		
+				}
+			}
+		}
+	}
 };
 
 // Use curry5 to define each of the five functions specified in the
