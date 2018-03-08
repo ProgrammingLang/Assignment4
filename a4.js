@@ -5,7 +5,7 @@ if ( ! exports )
    var exports = [ ];
 
 
-/*
+
 // Your solution for problem 1 must appear between this and matching
 // end comment below
 
@@ -39,17 +39,14 @@ var deepMap = function (f,ns) {
 // Your solution for problem 3 must appear between this and matching
 // end comment below
 
-
 var countOccurrences = function (ns) {
+  var mapper = function(n, r) {
+		return fp.makeList(r, fp.reduce(function(a, y)
+      {return fp.add(a, (fp.isEq(y, r) ? 1 : 0)); }, n,  0));
+	};
 
-	
-
-
-
-
-  return 0;
-};*/
-
+  return  fp.map(fp.curry(mapper)(ns), ns);
+};
 
 ////////// End of code for problem 3 ////////////////////
 
@@ -78,6 +75,8 @@ var rightEdge = 1000000;
 
 // curry5 curries a function of five parameters
 var curry5 = function (f) {
+
+
     return function (t){
 		return function(l){
 			return function(b){
@@ -123,21 +122,17 @@ var makeCompositeMFRFunc = function(mf, ff, rf, acc)  {
 
 
 var howManyWithLargerGTSmaller = function (list) {
-				
-				
-
-				var mapper = function(x)
-					{
-					
-						return (fp.isGT(fp.reduce(fp.max,x,fp.hd(x)),
-										fp.reduce(fp.min,x,fp.hd(x)))
-										? 1 : 0);
-					}
-				var reducer = function(x,y)
-					{
-						return fp.add(x,y);
-					}
-   				return fp.reduce(reducer,fp.map(mapper,list),0);
+  var mapper = function(x)
+  {	
+    return (fp.isGT(fp.reduce(fp.max,x,fp.hd(x)),
+            fp.reduce(fp.min,x,fp.hd(x)))
+            ? 1 : 0);
+  }
+var reducer = function(x,y)
+  {
+    return fp.add(x,y);
+  }
+   		return fp.reduce(reducer,fp.map(mapper,list),0);
 };
 
 
@@ -148,7 +143,7 @@ var howManyWithLargerGTSmaller = function (list) {
 ////////// Everything below this line will be stripped away when your
 ////////// submission is evaluated
 
-/*console.log("Testing Problem 1");
+console.log("Testing Problem 1");
 console.log(minMax( [[1,2,3],[5,4],[6],[7,10,9,9,10]] ));
 
 console.log("Testing Problem 2");
@@ -198,7 +193,7 @@ console.log("Testing Problem 5");
  	function(a,n) { return fp.cons(n, a); },
  	[])
      ([11,15,12,4,3])
- 	   );*/
+ 	   );
 
 
 console.log("Testing Problem 6");
