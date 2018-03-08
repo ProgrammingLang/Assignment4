@@ -39,27 +39,15 @@ var deepMap = function (f,ns) {
 // Your solution for problem 3 must appear between this and matching
 // end comment below
 
-
 var countOccurrences = function (ns) {
-
-	//returns a list of all occurrences
-	var mapper = function(n, r) {
-		return fp.reduce(function(a, y) { return fp.add(a, (fp.isEq(y, r) ? 1 : 0)); }, n, 0); 
+  var mapper = function(n, r) {
+		return fp.makeList(r, fp.reduce(function(a, y)
+      {return fp.add(a, (fp.isEq(y, r) ? 1 : 0)); }, n,  0));
 	};
 
-	var inter = function(l1, l2) {
-		if(fp.isNull(fp.tl(l2))) {
-			return [fp.cons(fp.hd(l1), l2)];
-		}
-		else {
-			return fp.cons(fp.cons(fp.hd(l1), [fp.hd(l2)]), inter(fp.tl(l1), fp.tl(l2)));
-		}
-	};
-
-	return inter(ns, fp.map(fp.curry(mapper)(ns), ns));
+  return  fp.map(fp.curry(mapper)(ns), ns);
 
 };
-
 
 ////////// End of code for problem 3 ////////////////////
 
@@ -92,7 +80,9 @@ var curry5 = function (f) {
 		return function(v) {
 			return function(w) {
 				return function(x) {
-					return f(u, v, w, x);		
+          return function(y) {
+            return f(u, v, w, x, y);
+          }
 				}
 			}
 		}
